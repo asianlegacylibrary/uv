@@ -2,4 +2,4 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Testing Universal Viewer with React
 
-[http://universalviewer.io](Universal Viewer)
+[Universal Viewer](http://universalviewer.io)
