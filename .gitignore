@@ -11,6 +11,9 @@
 # production
 /build
 
+# uv
+/public/static/uv
+
 # misc
 .DS_Store
 .env.local
