@@ -9,8 +9,8 @@ export default class App extends Component {
     this.state = {
 			headerMessage: "",
 			uv: {
-				root: "/static/uv",
-				configUri: "/static/uv.json",
+				root: "./static/uv",
+				configUri: "./static/uv.json",
 				manifest: ""
 			}
 		}
