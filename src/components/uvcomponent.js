@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { nomadManifest } from '../store'
+import { nomadManifest, bdrcManifest } from '../store'
 
 export default class UVComponent extends Component {
 
@@ -12,7 +12,7 @@ export default class UVComponent extends Component {
 	constructor(props) {
         super(props);
         this.state = {
-            manifest: nomadManifest
+            manifest: bdrcManifest
         }
     }
 
