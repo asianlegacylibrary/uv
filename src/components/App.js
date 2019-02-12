@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import UV from './uvcomponent'
 import '../assets/css/App.css'
 
+import { bdrcManifest } from '../store'
+
 export default class App extends Component {
 
   constructor(props) {
@@ -11,18 +13,16 @@ export default class App extends Component {
 			uv: {
 				root: "./static/uv",
 				configUri: "./static/uv.json",
-				manifest: ""
+				manifest: `${bdrcManifest}`
 			}
 		}
   }
 
   render() {
-    console.log(this.state.uv)
+    //console.log(this.state.uv)
     return (
-      <div className="App">
-        <header className="App-header">
-          TESTING UNIVERSAL VIEWER // REACT
-        </header>
+      <div>
+        <header className="app-header">UV TEST</header>
         <UV
           id="uv" 
           root={this.state.uv.root} 

@@ -1,20 +1,11 @@
 import React, { Component } from 'react'
 
-import { nomadManifest, bdrcManifest } from '../store'
-
 export default class UVComponent extends Component {
 
     uvEl;
     uv;
     uvstate;
     urlDataProvider;
-
-	constructor(props) {
-        super(props);
-        this.state = {
-            manifest: bdrcManifest
-        }
-    }
 
     openManifest() {
 
@@ -36,7 +27,7 @@ export default class UVComponent extends Component {
     }
 
     componentWillMount() {
-
+        console.log('mounting, from app...', this.props)
         // prevent server-side compilation error
         if (typeof window === 'undefined') {
             return;
@@ -46,16 +37,13 @@ export default class UVComponent extends Component {
 
         window.addEventListener('uvLoaded', function (e) {
 
-            console.log('uvloaded');
-
             that.urlDataProvider = new window.UV.URLDataProvider();
 
             that.uvstate = {
                 root: that.props.root,
                 configUri: that.props.configUri,
                 locales: [{ name: 'en-GB' }],
-                //iiifResourceUri: '',
-                iiifResourceUri: `${that.state.manifest}`,
+                iiifResourceUri: that.props.manifest,
                 collectionIndex: Number(that.urlDataProvider.get('c', 0)),
                 manifestIndex: Number(that.urlDataProvider.get('m', 0)),
                 sequenceIndex: Number(that.urlDataProvider.get('s', 0)),
@@ -63,21 +51,25 @@ export default class UVComponent extends Component {
                 rotation: Number(that.urlDataProvider.get('r', 0)),
                 xywh: that.urlDataProvider.get('xywh', '')
             }
+
+            console.log('uvloaded with ', that.uvstate)
         
             that.uvEl = document.querySelector('#' + that.props.id || '#uv');
             that.uv = window.createUV(that.uvEl, that.uvstate, that.urlDataProvider);
 
+            // is on created like when it first loads? with no manifest hash param?
             that.uv.on('created', function () {
-                console.log('created with ', that.state.manifest)
-                window.Utils.Urls.setHashParameter('manifest', that.state.manifest) //that.uvstate.iiifResourceUri);
+                console.log('created with', that.uvstate)
+                window.Utils.Urls.setHashParameter('manifest', that.props.manifest) // that.uvstate.iiifResourceUri
             });
 
             // are there uv hash parameters?
             that.uvstate.iiifResourceUri = window.Utils.Urls.getHashParameter('manifest');
 
-            if (that.uvstate.iiifResourceUri) {
-                that.openManifest();
-            }
+            // console.log('post hash param', that.uvstate)
+            // if (that.uvstate.iiifResourceUri) {
+            //     that.openManifest();
+            // }
         
         }, false);
     }
