@@ -67,13 +67,13 @@ export default class UVComponent extends Component {
             that.uvEl = document.querySelector('#' + that.props.id || '#uv');
             that.uv = window.createUV(that.uvEl, that.uvstate, that.urlDataProvider);
 
-            // that.uv.on('created', function () {
-            //     console.log('created with ', nomadManifest)
-            //     window.Utils.Urls.setHashParameter('manifest', nomadManifest) //that.uvstate.iiifResourceUri);
-            // });
+            that.uv.on('created', function () {
+                console.log('created with ', that.state.manifest)
+                window.Utils.Urls.setHashParameter('manifest', that.state.manifest) //that.uvstate.iiifResourceUri);
+            });
 
             // are there uv hash parameters?
-            //that.uvstate.iiifResourceUri = window.Utils.Urls.getHashParameter('manifest');
+            that.uvstate.iiifResourceUri = window.Utils.Urls.getHashParameter('manifest');
 
             if (that.uvstate.iiifResourceUri) {
                 that.openManifest();
