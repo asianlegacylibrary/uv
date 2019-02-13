@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import UV from './uvcomponent'
+import UVComponent from './UV'
 import '../assets/css/App.css'
 
-import { bdrcManifest } from '../store'
+import { bdrc, getRandomInt } from '../store'
 
 export default class App extends Component {
 
@@ -13,17 +13,17 @@ export default class App extends Component {
 			uv: {
 				root: "./static/uv",
 				configUri: "./static/uv.json",
-				manifest: `${bdrcManifest}`
+				manifest: bdrc[getRandomInt(0, bdrc.length - 1)]
 			}
 		}
   }
 
   render() {
-    //console.log(this.state.uv)
+    console.log(this.state.uv)
     return (
       <div>
         <header className="app-header">UV TEST</header>
-        <UV
+        <UVComponent
           id="uv" 
           root={this.state.uv.root} 
           configUri={this.state.uv.configUri} 
