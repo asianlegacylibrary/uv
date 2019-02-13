@@ -47,8 +47,9 @@ export default class UVComponent extends Component {
 
             // are there uv hash parameters?
             this.uvstate.iiifResourceUri = window.Utils.Urls.getHashParameter('manifest')
+            
 
-        }, false);
+        }, true);
     }
 
     componentWillReceiveProps(nextProps) {
