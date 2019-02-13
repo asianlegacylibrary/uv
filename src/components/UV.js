@@ -45,10 +45,6 @@ export default class UVComponent extends Component {
                 window.Utils.Urls.setHashParameter('manifest', manifest) // that.uvstate.iiifResourceUri
             })
 
-            // are there uv hash parameters?
-            this.uvstate.iiifResourceUri = window.Utils.Urls.getHashParameter('manifest')
-            
-
         }, true);
     }
 
@@ -64,14 +60,6 @@ export default class UVComponent extends Component {
     openManifest() {
 
         console.log('open sesamanifest')
-
-        // show the UV (if hidden) and scroll into view
-        this.uvEl.style.display = 'block';
-
-        if (this.props.scrollIntoView) {
-            this.uvEl.scrollIntoView();
-        }
-
         this.uv.set(Object.assign({}, this.uvstate, {
             collectionIndex: 0,
             manifestIndex: 0,
