@@ -17,7 +17,7 @@ export default class App extends Component {
 			uv: {
 				root: "./static/uv",
 				configUri: "./static/uv.json",
-				manifest: princetonManifest
+				manifest: ''
 			}
 		}
   }
