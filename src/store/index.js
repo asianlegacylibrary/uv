@@ -24,28 +24,15 @@ export const getRandomInt = (min, max) => {
 }
 
 // check if the BDRC image server is up (it's down a lot these days!)
-// export const checkBDRC = async () => {
-//     try {
-//         const response = await fetch(bdrcManifest)
-//         if(response.ok) { return true }
-//         console.log(response.status)
-//         throw new Error(response.status)
-//         //this.setState({ data: json });
-//     } catch (error) {
-//         console.log('error', error)
-//         return false 
-//     }
-//   }
-
-// add this to APP once UV loading is stable...
-// async componentDidMount() {
-//   const manifest = await checkBDRC() ? bdrc[getRandomInt(0, bdrc.length - 1)] : princetonManifest
-//   this.setState(prevState => ({
-//     uv: {
-//       ...prevState.uv,
-//       manifest: manifest
-//     }
-//   }), () => {
-//     console.log('app mounted', this.state.uv.manifest)
-//   }) 
-// }
+export const checkBDRC = async () => {
+    try {
+        const response = await fetch(bdrcManifest)
+        if(response.ok) { return true }
+        console.log(response.status)
+        throw new Error(response.status)
+        //this.setState({ data: json });
+    } catch (error) {
+        console.log('error', error)
+        return false 
+    }
+  }

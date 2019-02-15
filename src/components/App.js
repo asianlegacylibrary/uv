@@ -3,6 +3,9 @@ import UVComponent from './UV'
 import '../assets/css/App.css'
 
 import { 
+  checkBDRC,
+  bdrc,
+  getRandomInt,
   princetonManifest } from '../store'
 
 export default class App extends Component {
@@ -19,8 +22,24 @@ export default class App extends Component {
 		}
   }
 
+  checkServer = async () => {
+    const manifest = await checkBDRC() ? bdrc[getRandomInt(0, bdrc.length - 1)] : princetonManifest
+    this.setState(prevState => ({
+      uv: {
+        ...prevState.uv,
+        manifest: manifest
+      }
+    }), () => {
+      console.log('App did mount', this.state.uv.manifest)
+    }) 
+  }
+
+  componentDidMount() {
+    this.checkServer()
+  }
+
   render() {
-    console.log(this.state.uv)
+    console.log('render App')
     return (
       <div>
         <header className="app-header">UV TEST</header>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 export default class UVComponent extends Component {
 
-    openManifest() {
+    openManifest = () => {
 
         console.log('open sesamanifest', this.uvstate)
         
@@ -15,8 +15,42 @@ export default class UVComponent extends Component {
 
     }
 
-    componentWillMount() {
-        console.log('props from app...', this.props)
+    createUVobj = () => {
+        this.urlDataProvider = new window.UV.URLDataProvider()
+
+        let manifest
+        if(window.Utils.Urls.getHashParameter('manifest')) {
+            manifest = window.Utils.Urls.getHashParameter('manifest') 
+        } else {
+            manifest = this.props.manifest
+        }
+            
+        console.log('uvloaded with', manifest)
+
+        this.uvstate = {
+            root: this.props.root,
+            configUri: this.props.configUri,
+            locales: [{ name: 'en-GB' }],
+            iiifResourceUri: manifest,
+            collectionIndex: Number(this.urlDataProvider.get('c', 0)),
+            manifestIndex: Number(this.urlDataProvider.get('m', 0)),
+            sequenceIndex: Number(this.urlDataProvider.get('s', 0)),
+            canvasIndex: Number(this.urlDataProvider.get('cv', 0)),
+            rotation: Number(this.urlDataProvider.get('r', 0)),
+            xywh: this.urlDataProvider.get('xywh', '')
+        }
+
+        this.uvEl = document.querySelector('#' + this.props.id || '#uv')
+        this.uv = window.createUV(this.uvEl, this.uvstate, this.urlDataProvider)
+
+        this.uv.on('created', () => {
+            console.log('uv created with', this.uvstate)
+            window.Utils.Urls.setHashParameter('manifest', this.uvstate.iiifResourceUri)
+        })
+    }
+
+    setupUV = async () => {
+        console.log('setting up UV with props from App...', this.props)
         // prevent server-side compilation error
         if (typeof window === 'undefined') {
             console.log('window undefined', typeof(window))
@@ -27,50 +61,26 @@ export default class UVComponent extends Component {
 
         window.addEventListener('uvLoaded', (e) => {
 
-            this.urlDataProvider = new window.UV.URLDataProvider()
-
-            let manifest
-            if(window.Utils.Urls.getHashParameter('manifest')) {
-                manifest = window.Utils.Urls.getHashParameter('manifest') 
-            } else {
-                manifest = this.props.manifest
+            if(!this.uvstate) {
+                this.createUVobj()
             }
-                
-            console.log('uvloaded with', manifest)
-
-            this.uvstate = {
-                root: this.props.root,
-                configUri: this.props.configUri,
-                locales: [{ name: 'en-GB' }],
-                iiifResourceUri: manifest,
-                collectionIndex: Number(this.urlDataProvider.get('c', 0)),
-                manifestIndex: Number(this.urlDataProvider.get('m', 0)),
-                sequenceIndex: Number(this.urlDataProvider.get('s', 0)),
-                canvasIndex: Number(this.urlDataProvider.get('cv', 0)),
-                rotation: Number(this.urlDataProvider.get('r', 0)),
-                xywh: this.urlDataProvider.get('xywh', '')
-            }
-
-            this.uvEl = document.querySelector('#' + this.props.id || '#uv')
-            this.uv = window.createUV(this.uvEl, this.uvstate, this.urlDataProvider)
-
-            this.uv.on('created', () => {
-                console.log('uv created with', this.uvstate)
-                window.Utils.Urls.setHashParameter('manifest', this.uvstate.iiifResourceUri)
-            })
             
-
         }, false)
-
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillMount = () => {
+        this.setupUV()
+    }
+
+    componentWillReceiveProps = (nextProps) => {
         console.log('next props', nextProps, 'uvstate', this.uvstate)
-        // if it's not the initial props, and a manifest has been set, 
-        // and the current manifest isn't the next one (fix for IE recursion bug)
-        if (this.uvstate && nextProps.manifest && this.uvstate.iiifResourceUri !== nextProps.manifest) {
-            this.uvstate.iiifResourceUri = nextProps.manifest
-            this.openManifest()
+        if(!this.uvstate) {
+            this.setupUV()
+        } else if(this.uvstate.iiifResourceUri !== nextProps.manifest) {
+            console.log('we need to load a new manifest', this.props.manifest, nextProps.manifest)
+            //this.uvstate.iiifResourceUri = nextProps.manifest
+        } else {
+            console.log('next props the same as current')
         }
     }
 
