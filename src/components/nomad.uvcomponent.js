@@ -67,9 +67,9 @@ export default class UVComponent extends Component {
             that.uvstate.iiifResourceUri = window.Utils.Urls.getHashParameter('manifest');
 
             // console.log('post hash param', that.uvstate)
-            // if (that.uvstate.iiifResourceUri) {
-            //     that.openManifest();
-            // }
+            if (that.uvstate.iiifResourceUri) {
+                that.openManifest();
+            }
         
         }, false);
     }

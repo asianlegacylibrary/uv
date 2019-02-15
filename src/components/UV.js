@@ -2,12 +2,28 @@ import React, { Component } from 'react'
 
 export default class UVComponent extends Component {
 
+    openManifest() {
+
+        console.log('open sesamanifest', this.uvstate)
+        
+        this.uv.set(Object.assign({}, this.uvstate, {
+            collectionIndex: 0,
+            manifestIndex: 0,
+            sequenceIndex: 0,
+            canvasIndex: 0
+        }))
+
+    }
+
     componentWillMount() {
-        console.log('mounting, from app...', this.props)
+        console.log('props from app...', this.props)
         // prevent server-side compilation error
         if (typeof window === 'undefined') {
-            return;
+            console.log('window undefined', typeof(window))
+            return
         }
+
+        console.log(window)
 
         window.addEventListener('uvLoaded', (e) => {
 
@@ -20,7 +36,7 @@ export default class UVComponent extends Component {
                 manifest = this.props.manifest
             }
                 
-            console.log('manifest is', manifest)
+            console.log('uvloaded with', manifest)
 
             this.uvstate = {
                 root: this.props.root,
@@ -35,42 +51,32 @@ export default class UVComponent extends Component {
                 xywh: this.urlDataProvider.get('xywh', '')
             }
 
-            console.log('uvloaded with ', this.uvstate)
-        
-            this.uvEl = document.querySelector('#' + this.props.id || '#uv');
-            this.uv = window.createUV(this.uvEl, this.uvstate, this.urlDataProvider);
+            this.uvEl = document.querySelector('#' + this.props.id || '#uv')
+            this.uv = window.createUV(this.uvEl, this.uvstate, this.urlDataProvider)
 
-            // once created add manifest to URL
             this.uv.on('created', () => {
-                window.Utils.Urls.setHashParameter('manifest', manifest) // that.uvstate.iiifResourceUri
+                console.log('uv created with', this.uvstate)
+                window.Utils.Urls.setHashParameter('manifest', this.uvstate.iiifResourceUri)
             })
+            
 
-        }, true);
+        }, false)
+
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('next props', nextProps)
-        // if it's not the initial props, and a manifest has been set, and the current manifest isn't the next one (fix for IE recursion bug)
+        console.log('next props', nextProps, 'uvstate', this.uvstate)
+        // if it's not the initial props, and a manifest has been set, 
+        // and the current manifest isn't the next one (fix for IE recursion bug)
         if (this.uvstate && nextProps.manifest && this.uvstate.iiifResourceUri !== nextProps.manifest) {
-            this.uvstate.iiifResourceUri = nextProps.manifest;
-            this.openManifest();
+            this.uvstate.iiifResourceUri = nextProps.manifest
+            this.openManifest()
         }
-    }
-
-    openManifest() {
-
-        console.log('open sesamanifest')
-        this.uv.set(Object.assign({}, this.uvstate, {
-            collectionIndex: 0,
-            manifestIndex: 0,
-            sequenceIndex: 0,
-            canvasIndex: 0
-        }));
     }
 
     render() {
 		return (
-			<div id="uv" class="uv"></div>
+			<div id="uv" className="uv"></div>
         )
     }
 

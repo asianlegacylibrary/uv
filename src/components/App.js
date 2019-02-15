@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import UVComponent from './UV'
 import '../assets/css/App.css'
 
-import { bdrc, getRandomInt } from '../store'
+import { 
+  princetonManifest } from '../store'
 
 export default class App extends Component {
 
@@ -13,7 +14,7 @@ export default class App extends Component {
 			uv: {
 				root: "./static/uv",
 				configUri: "./static/uv.json",
-				manifest: bdrc[getRandomInt(0, bdrc.length - 1)]
+				manifest: princetonManifest
 			}
 		}
   }
