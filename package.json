@@ -6,12 +6,12 @@
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-scripts": "2.1.3",
-    "universalviewer": "^3.0.16"
+    "universalviewer": "3.0.33"
   },
   "scripts": {
     "postinstall": "yarn copy-uv-to-src && yarn copy-uv-to-public",
-    "copy-uv-to-src": "rm -rf src/assets/uv && cp -R node_modules/universalviewer/uv src/assets",
-    "copy-uv-to-public": "rm -rf public/static/uv && cp -R node_modules/universalviewer/uv public/static",
+    "copy-uv-to-src": "rm -rf src/assets/uv && cp -R node_modules/universalviewer/dist src/assets/uv",
+    "copy-uv-to-public": "rm -rf public/static/uv && cp -R node_modules/universalviewer/dist public/static/uv",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
