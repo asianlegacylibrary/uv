@@ -31,12 +31,18 @@ export default class App extends Component {
       }
     }), () => {
       console.log('App did mount', this.state.uv.manifest)
+      this.checkStateOfWindow()
     }) 
   }
 
   componentDidMount() {
     this.checkServer()
   }
+
+  checkStateOfWindow = () => {
+    console.log(window)
+  }
+
 
   render() {
     console.log('render App')
@@ -48,7 +54,7 @@ export default class App extends Component {
           root={this.state.uv.root} 
           configUri={this.state.uv.configUri} 
           manifest={this.state.uv.manifest} 
-          scrollIntoView="true" />
+        />
       </div>
     );
   }

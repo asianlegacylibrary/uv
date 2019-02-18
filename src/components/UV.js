@@ -57,8 +57,6 @@ export default class UVComponent extends Component {
             return
         }
 
-        console.log(window)
-
         window.addEventListener('uvLoaded', (e) => {
 
             if(!this.uvstate) {
@@ -78,7 +76,8 @@ export default class UVComponent extends Component {
             this.setupUV()
         } else if(this.uvstate.iiifResourceUri !== nextProps.manifest) {
             console.log('we need to load a new manifest', this.props.manifest, nextProps.manifest)
-            //this.uvstate.iiifResourceUri = nextProps.manifest
+            this.uvstate.iiifResourceUri = nextProps.manifest
+            this.openManifest()
         } else {
             console.log('next props the same as current')
         }
