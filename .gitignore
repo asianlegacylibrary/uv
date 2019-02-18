@@ -13,6 +13,7 @@
 
 # uv
 /public/static/uv
+/src/assets/uv
 
 # misc
 .DS_Store

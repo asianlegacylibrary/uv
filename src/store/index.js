@@ -26,7 +26,7 @@ export const getRandomInt = (min, max) => {
 // check if the BDRC image server is up (it's down a lot these days!)
 export const checkBDRC = async () => {
     try {
-        const response = await fetch(bdrcManifest)
+        const response = await fetch(nomadManifest)
         if(response.ok) { return true }
         console.log(response.status)
         throw new Error(response.status)

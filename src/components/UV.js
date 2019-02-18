@@ -31,7 +31,7 @@ export default class UVComponent extends Component {
             root: this.props.root,
             configUri: this.props.configUri,
             locales: [{ name: 'en-GB' }],
-            iiifResourceUri: manifest,
+            iiifResourceUri: this.props.manifest,
             collectionIndex: Number(this.urlDataProvider.get('c', 0)),
             manifestIndex: Number(this.urlDataProvider.get('m', 0)),
             sequenceIndex: Number(this.urlDataProvider.get('s', 0)),
