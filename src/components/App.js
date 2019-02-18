@@ -31,7 +31,7 @@ export default class App extends Component {
         manifest: manifest
       }
     }), () => {
-      console.log('App did mount', this.state.uv.manifest)
+      console.log('reset manifest', this.state.uv.manifest)
       this.checkStateOfWindow()
     }) 
   }

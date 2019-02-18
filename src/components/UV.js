@@ -53,7 +53,6 @@ export default class UVComponent extends Component {
         console.log('setting up UV with props from App...', this.props)
         // prevent server-side compilation error
         if (typeof window === 'undefined') {
-            console.log('window undefined', typeof(window))
             return
         }
 
