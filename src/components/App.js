@@ -23,8 +23,10 @@ export default class App extends Component {
   }
 
   checkServer = async () => {
-    //const manifest = await checkBDRC() ? bdrc[getRandomInt(0, bdrc.length - 1)] : princetonManifest
-    const manifest = princetonManifest;
+    const manifest = await checkBDRC() 
+      ? bdrc[getRandomInt(0, bdrc.length - 1)] 
+      : princetonManifest
+      
     this.setState(prevState => ({
       uv: {
         ...prevState.uv,
